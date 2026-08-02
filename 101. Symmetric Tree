@@ -1,0 +1,14 @@
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if (root == NULL) return true;
+        return isSymmetric1(root->left, root->right);
+    }
+    bool isSymmetric1(TreeNode* left, TreeNode* right) {
+        if (left == NULL && right == NULL) return true;
+        if (left == NULL || right == NULL) return false;
+        if (left->val != right->val) return false;
+        return isSymmetric1(left->left, right->right) &&
+               isSymmetric1(left->right, right->left);
+    }
+};
