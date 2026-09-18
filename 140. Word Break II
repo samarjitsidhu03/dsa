@@ -1,0 +1,29 @@
+class Solution {
+public:
+    unordered_map<int, vector<string>> dp;
+    vector<string> solve(string &s, unordered_set<string> &dict, int start) {
+        if (start == s.size())
+            return {""};
+        if (dp.count(start))
+            return dp[start];
+        vector<string> ans;
+        for (int end = start + 1; end <= s.size(); end++) {
+            string word = s.substr(start, end - start);
+            if (dict.count(word)) {
+                vector<string> rest = solve(s, dict, end);
+               for (string x : rest) {
+                    if (x.empty())
+                        ans.push_back(word);
+                    else
+                        ans.push_back(word + " " + x);
+                }
+            }
+        }
+        return dp[start] = ans;
+    }
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string> dict(wordDict.begin(), wordDict.end());
+        dp.clear();
+        return solve(s, dict, 0);
+    }
+};
